@@ -1,15 +1,27 @@
 {
   "name": "request-uri",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.1",
+  "description": "Universal, environment-aware URL builder for browser, Node contexts.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "README.md"],
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "test": "jest",
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["request-uri", "url", "builder", "request", "fastify", "browser", "node"],
+  "author": "appsaeed7@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoBrightApps/request-uri.git"
+  },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
     "@types/jest": "^29.5.14",

@@ -1,4 +1,4 @@
-# Javascript Uri helper
+# JavaScript Request URI Helper
 
 A lightweight, flexible URL utility class that intelligently constructs and manipulates URLs across browser and server environments, including Fastify, Fetch, and custom request objects.
 
@@ -212,8 +212,8 @@ import Uri, { UriRequest } from "uri-request-builder";
 Clone and run tests:
 
 ```bash
-git clone https://github.com/your-org/uri-request-builder
-cd uri-request-builder
+git clone https://github.com/GoBrightApps/request-uri.git
+cd request-uri
 npm install
 npm test
 ```
