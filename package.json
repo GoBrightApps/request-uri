@@ -1,6 +1,6 @@
 {
   "name": "request-uri",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Universal, environment-aware URL builder for browser, Node contexts.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

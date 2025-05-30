@@ -202,7 +202,7 @@ Static string fallback for base resolution.
 Written in TypeScript, with full type definitions out of the box:
 
 ```ts
-import Uri, { UriRequest } from "uri-request-builder";
+import Uri, { UriRequest } from "request-uri";
 ```
 
 ---
