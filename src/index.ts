@@ -1,20 +1,26 @@
-import { FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
-export type UriRequest =
-	| FastifyRequest
-	| Request
-	| {
-			host?: string;
-			protocol?: string;
-			port?: string | number;
-			headers?: Record<string, string | string[] | undefined>;
-	  }
-	| string;
+export type CustomRequest = {
+	host?: string;
+	protocol?: string;
+	port?: string | number;
+	headers?: Record<string, string | string[] | undefined>;
+};
+
+export type UriRequest = FastifyRequest | Request | CustomRequest | string;
 
 export default class Uri extends URL {
+	/** Used as the fallback base URL when none is provided. */
 	static fallbackBase?: string;
+
+	/** Request object for internal use. */
 	static #request?: UriRequest;
 
+	/**
+	 * Sets the default request object used to resolve the URI base.
+	 *
+	 * @param {UriRequest} request The request object.
+	 */
 	static setRequest(request: UriRequest) {
 		this.#request = request;
 	}
@@ -61,6 +67,11 @@ export default class Uri extends URL {
 		return this.fallbackBase;
 	}
 
+	/**
+	 * Appends query parameters to the URI.
+	 * @param {string | Record<string, unknown>} query The key or key-value map.
+	 * @param {unknown} [value] The value if a single key is provided.
+	 */
 	public setQuery(query: string | Record<string, unknown>, value?: unknown): this {
 		//handle and return this if query is object
 		if (typeof query === "object") {
@@ -75,45 +86,74 @@ export default class Uri extends URL {
 		return this;
 	}
 
+	/**
+	 * Sets the URI protocol.
+	 * @param {string} protocol Protocol string (e.g., "https").
+	 */
 	public setProtocol(protocol: string) {
 		this.protocol = protocol;
 		return this;
 	}
 
+	/**
+	 * Sets the URI port.
+	 * @param {string} port Port number as string.
+	 */
 	public setPort(port: string) {
 		this.port = port;
 		return this;
 	}
 
+	/**
+	 * Sets the URI host.
+	 * @param {string} host Hostname.
+	 */
 	public setHost(host: string) {
 		this.host = host;
 		return this;
 	}
 
+	/**
+	 * Sets the URI path.
+	 * @param {string | string[]} path Path string or array.
+	 */
 	public setPath(path: string | string[]) {
 		this.pathname = Array.isArray(path) ? path.join("/") : path;
 		return this;
 	}
 
-	private static _request(path: string, request?: UriRequest) {
+	/**
+	 * Creates a new Uri instance from a path and optional request.
+	 * @param {string} path The relative or absolute path.
+	 * @param {UriRequest} [request] Optional request object.
+	 * @returns {Uri} New Uri instance.
+	 */
+	private static _request(path: string, request?: UriRequest): Uri {
 		const base = this.#resolveBaseFromRequest(request);
 		return new this(path, base);
 	}
 
-	// Define sealed static methods internally
-	static readonly request = Object.freeze(function (this: typeof Uri, path: string, request?: UriRequest) {
-		return this._request(path, request);
-	});
+	/**
+	 * Public interface to create a Uri instance.
+	 * @param {string} path Path string.
+	 * @param {UriRequest} [request] Optional request object.
+	 * @returns {Uri} New Uri instance.
+	 */
+	static readonly request = Uri._request;
 
-	static readonly from = Uri.request;
+	/** Alias for `request`. */
+	static readonly from = Uri._request;
 }
 
+// Make `request` method immutable and enumerable on Uri.
 Object.defineProperty(Uri, "request", {
 	writable: false,
 	configurable: false,
 	enumerable: true,
 	value: Uri.request,
 });
+
+// Make `from` alias immutable and enumerable on Uri.
 Object.defineProperty(Uri, "from", {
 	writable: false,
 	configurable: false,
