@@ -1,26 +1,21 @@
 # JavaScript Request URI Helper
 
-A lightweight, flexible URL utility class that intelligently constructs and manipulates URLs across browser and server environments, including Fastify, Fetch, and custom request objects.
+A lightweight, flexible utility to build and manage URLs across Node.js, browsers, Fastify, Fetch, and more.
 
-Supports dynamic base resolution, fluent URL building, and clean instance methods for real-world routing, API calls, and request tracking.
+Support base detection, clean chaining, and real-world support for APIs, routing, and tracking.
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install request-uri
-```
 
-or with Yarn:
-
-```bash
+# or
 yarn add request-uri
 ```
 
----
+## 🔧 Available features
 
-## 🔧 Features
-
-### ✅ Auto-Detects Base URL From Request Context
+### ✅ Auto-Detects base url from request context
 
 Uri automatically resolves a base URL from:
 
@@ -32,9 +27,9 @@ Uri automatically resolves a base URL from:
 - **Fallback base URL** (if everything else fails)
 
 ```ts
-const uri = Uri.request("/path", request); // Automatically detects base from request object
-//or 
 const uri = Uri.from("/path", request); // Automatically detects base from request object
+//or 
+const uri = Uri.request("/path", request);
 ```
 
 Set a static fallback for cases when base cannot be resolved:
@@ -46,13 +41,12 @@ Uri.fallbackBase = "https://my-default.com";
 Or set a global request object once:
 
 ```ts
-Uri.setRequest(myRequest);
+Uri.setRequest(serverReqeust);
 const uri = Uri.from("/auto-detects-base");
 ```
 
----
 
-### 🌐 Works Everywhere
+### 🌐  Everywhere
 
 - ✅ Node.js servers (e.g., Fastify, Express)
 - ✅ Browser apps (SPA, SSR)

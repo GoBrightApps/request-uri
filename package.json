@@ -1,21 +1,36 @@
 {
   "name": "request-uri",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Universal, environment-aware URL builder for browser, Node contexts.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "README.md"],
+  "type": "module",
   "exports": {
     ".": {
+      "import": "./dist/index.js",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "jest",
-    "build": "tsc"
+    "build": "npm run clean && jest && tsc",
+    "upload": "npm run build && npm publish --access public"
   },
-  "keywords": ["request-uri", "url", "builder", "request", "fastify", "browser", "node"],
+  "keywords": [
+    "request-uri",
+    "url",
+    "builder",
+    "request",
+    "fastify",
+    "browser",
+    "node"
+  ],
   "author": "appsaeed7@gmail.com",
   "license": "MIT",
   "repository": {
