@@ -15,7 +15,7 @@ yarn add request-uri
 
 ## 🔧 Available features
 
-### ✅ Auto-Detects base url from request context
+#### Auto-Detects base url from request context
 
 Uri automatically resolves a base URL from:
 
@@ -24,25 +24,22 @@ Uri automatically resolves a base URL from:
 - **Fetch API `Request` objects**
 - **Plain JS objects** `{ protocol, host, port }`
 - **Raw string URLs**
-- **Fallback base URL** (if everything else fails)
+- **Fallback request or base URL** (when base resolve fails)
 
 ```ts
 const uri = Uri.from("/path", request); // Automatically detects base from request object
-//or 
-const uri = Uri.request("/path", request);
 ```
 
 Set a static fallback for cases when base cannot be resolved:
 
 ```ts
-Uri.fallbackBase = "https://my-default.com";
+Uri.fallback = "https://my-default.com";
 ```
 
 Or set a global request object once:
 
 ```ts
 Uri.setRequest(serverReqeust);
-const uri = Uri.from("/auto-detects-base");
 ```
 
 
@@ -72,20 +69,17 @@ Produces:
 https://api.example.com:8080/v1/users?limit=10&page=2
 ```
 
----
-
 ### ✍️ Fluent Methods
 
-| Method            | Description                                |
-|-------------------|--------------------------------------------|
-| `setPath(path)`   | Set or overwrite the pathname (string or array) |
-| `setQuery(key, value)` | Append a single query param |
-| `setQuery(obj)`   | Append multiple query params |
-| `setHost(host)`   | Overwrite the host                         |
-| `setPort(port)`   | Overwrite the port                         |
-| `setProtocol(protocol)` | Change the protocol (e.g., `https:`)     |
+| **Method**              | **Support**      | **Description**               |
+|-------------------------|------------------|-------------------------------|
+| `setPath(path)`         | string\|string[] | Set or overwrite the pathname |
+| `setQuery(key, value)`  | (string, any)    | Append a single query param   |
+| `setQuery(obj)`         | Object           | Append multiple query params  |
+| `setHost(host)`         | string           | Overwrite the host            |
+| `setPort(port)`         | string           | Overwrite the port            |
+| `setProtocol(protocol)` | string           | Overwrite the protocal        |
 
----
 
 ## 🔍 Usage Examples
 
@@ -103,6 +97,27 @@ console.log(uri.href); // e.g., "https://example.com/dashboard"
 fastify.get("/example", (req, reply) => {
   const uri = Uri.request("/users", req);
   console.log(uri.href); // Uses req.protocol and req.headers.host
+});
+```
+
+### Node Express request capture
+
+Node express js request capture with middleware 
+```js
+app.use(function(req, res, next){
+
+  Uri.setRequest(req);
+  next();
+  
+});
+```
+Node express js request capture inside of handler 
+```js
+app.get('/',function(req, res){
+
+  Uri.setRequest(req);
+
+  res.send('Hello');
 });
 ```
 
