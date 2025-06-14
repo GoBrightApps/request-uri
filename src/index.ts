@@ -181,7 +181,7 @@ export default class Uri extends UriHelper {
 	/**
 	 * Creates a new Uri instance from a path and optional request.
 	 */
-	static get(path: string, request?: UriRequest): Uri {
+	static make(path: string, request?: UriRequest): Uri {
 		return new this(path, this.getBase(request));
 	}
 
@@ -189,11 +189,11 @@ export default class Uri extends UriHelper {
 	 * Public interface to create a Uri instance.
 	 */
 	static from(path: string, request?: UriRequest): Uri {
-		return this.get(path, request);
+		return this.make(path, request);
 	}
 
 	/** Alise for Uri.get */
-	static request = this.get;
+	static request = this.make;
 }
 
 readonly(Uri, ["from", "get", "getBase", "getRequest", "setRequest", "request"]);
